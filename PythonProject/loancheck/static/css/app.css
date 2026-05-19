@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+}
+
+:focus-visible {
+  outline: 3px solid rgba(24, 95, 165, 0.35);
+  outline-offset: 3px;
+}
+
+.form-step {
+  animation: reveal 180ms ease-out;
+}
+
+.tool-tab {
+  border-radius: 0.375rem;
+  background: #f5f8fb;
+  color: #475569;
+  font-size: 0.875rem;
+  font-weight: 800;
+  padding: 0.5rem 0.75rem;
+}
+
+.tool-tab.active {
+  background: #185fa5;
+  color: white;
+}
+
+.borrower-toggle {
+  border-radius: 0.375rem;
+  color: #475569;
+  font-size: 0.875rem;
+  font-weight: 800;
+  padding: 0.5rem 0.85rem;
+}
+
+.borrower-toggle.active {
+  background: #185fa5;
+  color: white;
+}
+
+.loan-card.active {
+  border-color: #185fa5;
+  background: #eff6ff;
+}
+
+.doughnut {
+  width: 176px;
+  height: 176px;
+  border-radius: 999px;
+  background: conic-gradient(#185fa5 var(--principal), #70a9d6 0);
+  display: grid;
+  place-items: center;
+}
+
+.doughnut::after {
+  content: "";
+  width: 104px;
+  height: 104px;
+  border-radius: 999px;
+  background: white;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media print {
+  .no-print,
+  button {
+    display: none !important;
+  }
+
+  .print-full {
+    position: static !important;
+    box-shadow: none !important;
+  }
+}

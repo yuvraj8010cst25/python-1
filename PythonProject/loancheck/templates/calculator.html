@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ config.label }} Eligibility Calculator | LoanCheck</title>
+    <meta name="description" content="{{ config.meta_description }}">
+    <script type="application/ld+json">{{ schema | safe }}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: { blue: "#185FA5", ink: "#102033", line: "#D9E2EC", mist: "#F5F8FB" }
+            },
+            fontFamily: {
+              heading: ["Plus Jakarta Sans", "sans-serif"],
+              body: ["DM Sans", "sans-serif"]
+            },
+            boxShadow: { soft: "0 18px 45px rgba(16, 32, 51, 0.08)" }
+          }
+        }
+      };
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  </head>
+  <body class="bg-white font-body text-brand-ink">
+    <main>
+      <section class="border-b border-brand-line bg-brand-mist">
+        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p class="text-sm font-bold uppercase text-brand-blue" data-label-en="India loan eligibility platform" data-label-hi="भारत लोन पात्रता प्लेटफॉर्म">India loan eligibility platform</p>
+              <h1 class="mt-2 font-heading text-4xl font-extrabold sm:text-5xl">LoanCheck</h1>
+              <p class="mt-3 max-w-2xl text-slate-600" data-label-en="Check eligibility across six loan products with FOIR, LTV, CIBIL, tenure and EMI logic updated live." data-label-hi="FOIR, LTV, CIBIL, अवधि और EMI के आधार पर लोन पात्रता देखें.">Check eligibility across six loan products with FOIR, LTV, CIBIL, tenure and EMI logic updated live.</p>
+            </div>
+            <div class="no-print flex flex-wrap items-center gap-3">
+              <nav aria-label="Loan products" class="overflow-x-auto">
+                <div class="flex min-w-max gap-2 rounded-lg border border-brand-line bg-white p-1">
+                  {% for key, loan in configs.items() %}
+                    <a class="rounded-md px-4 py-2 text-sm font-semibold transition {{ 'bg-brand-blue text-white' if key == active_type else 'text-slate-600 hover:bg-brand-mist' }}" href="/{{ loan.slug }}">{{ loan.label }}</a>
+                  {% endfor %}
+                </div>
+              </nav>
+              <select id="language" aria-label="Language" class="rounded-md border border-brand-line bg-white px-3 py-2 text-sm font-semibold">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto grid max-w-7xl gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr)_440px] lg:px-8">
+        <div class="space-y-6">
+          <section class="rounded-lg border border-brand-line bg-white p-5 shadow-soft">
+            <div class="mb-6">
+              <div class="flex items-center justify-between text-sm font-bold text-slate-600">
+                <span id="stepText">Step 1 of 3</span>
+                <span id="stepPercent">33%</span>
+              </div>
+              <div class="mt-2 h-2 rounded-full bg-slate-100">
+                <div id="progressBar" class="h-full rounded-full bg-brand-blue transition-all" style="width: 33%"></div>
+              </div>
+            </div>
+
+            <form id="eligibilityForm" class="space-y-6">
+              <div class="form-step" data-step="1">
+                <h2 class="font-heading text-2xl font-extrabold">Personal profile</h2>
+                <div class="mt-5 grid gap-4 sm:grid-cols-2">
+                  <label class="text-sm font-semibold">Full name<input name="full_name" aria-label="Full name" class="mt-2 w-full rounded-md border border-brand-line px-3 py-2" value="{{ initial.full_name }}"></label>
+                  <label class="text-sm font-semibold">Date of birth<input name="dob" type="date" aria-label="Date of birth" class="mt-2 w-full rounded-md border border-brand-line px-3 py-2" value="{{ initial.dob }}"></label>
+                  <label class="text-sm font-semibold">Gender<select name="gender" aria-label="Gender" class="mt-2 w-full rounded-md border border-brand-line bg-white px-3 py-2"><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></label>
+                  <label class="text-sm font-semibold">PAN card type<select name="pan_type" aria-label="PAN card type" class="mt-2 w-full rounded-md border border-brand-line bg-white px-3 py-2"><option value="individual">Individual</option><option value="huf">HUF</option><option value="company">Company</option></select></label>
+                  <label class="text-sm font-semibold">Employment type<select name="employment_type" aria-label="Employment type" class="mt-2 w-full rounded-md border border-brand-line bg-white px-3 py-2"><option value="salaried">Salaried</option><option value="self-employed">Self-employed</option><option value="professional">Professional</option><option value="nri">NRI</option><option value="pensioner">Pensioner</option></select></label>
+                  <label class="text-sm font-semibold">City<select name="city" aria-label="City" class="mt-2 w-full rounded-md border border-brand-line bg-white px-3 py-2"><option value="metro">Metro</option><option value="tier1">Tier 1</option><option value="tier2">Tier 2</option><option value="rural">Rural</option></select></label>
+                </div>
+              </div>
+
+              <div class="form-step hidden" data-step="2">
+                <h2 class="font-heading text-2xl font-extrabold">Financial details</h2>
+                <div class="mt-5 grid gap-5">
+                  <label class="text-sm font-semibold">Monthly net income <span class="float-right text-brand-blue" data-display="monthly_income"></span><input name="monthly_income" type="range" min="10000" max="1000000" step="5000" class="mt-3 w-full accent-brand-blue" value="{{ initial.monthly_income }}"></label>
+                  <label class="text-sm font-semibold">Other income sources <span class="float-right text-brand-blue" data-display="other_income"></span><input name="other_income" type="range" min="0" max="300000" step="5000" class="mt-3 w-full accent-brand-blue" value="{{ initial.other_income }}"></label>
+                  <label class="text-sm font-semibold">Existing EMIs per month <span class="float-right text-brand-blue" data-display="existing_emis"></span><input name="existing_emis" type="range" min="0" max="200000" step="1000" class="mt-3 w-full accent-brand-blue" value="{{ initial.existing_emis }}"></label>
+                  <label class="text-sm font-semibold">Number of dependants <span data-display="dependants"></span><input name="dependants" type="range" min="0" max="5" step="1" class="mt-3 w-full accent-brand-blue" value="{{ initial.dependants }}"></label>
+                  <label class="text-sm font-semibold">CIBIL / Credit score <span class="float-right" id="cibilDisplay"></span><input name="cibil" type="range" min="300" max="900" step="1" class="mt-3 w-full" value="{{ initial.cibil }}"></label>
+                  <label class="flex items-center gap-3 text-sm font-semibold"><input name="has_co_applicant" type="checkbox" class="h-5 w-5 accent-brand-blue"> Add co-applicant</label>
+                  <div id="coApplicantFields" class="hidden grid gap-4 rounded-lg border border-brand-line p-4 sm:grid-cols-2">
+                    <label class="text-sm font-semibold">Co-applicant income <span class="float-right text-brand-blue" data-display="co_applicant_income"></span><input name="co_applicant_income" type="range" min="0" max="1000000" step="5000" class="mt-3 w-full accent-brand-blue" value="{{ initial.co_applicant_income }}"></label>
+                    <label class="text-sm font-semibold">Co-applicant CIBIL <span data-display="co_applicant_cibil"></span><input name="co_applicant_cibil" type="range" min="300" max="900" step="1" class="mt-3 w-full accent-brand-blue" value="{{ initial.co_applicant_cibil }}"></label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-step hidden" data-step="3">
+                <h2 class="font-heading text-2xl font-extrabold">Loan preferences</h2>
+                <div class="mt-5 grid gap-3 sm:grid-cols-2">
+                  {% for key, loan in configs.items() %}
+                    <button type="button" data-loan-card="{{ key }}" class="loan-card rounded-lg border p-4 text-left transition">
+                      <span data-lucide="{{ loan.icon }}" class="h-6 w-6 text-brand-blue"></span>
+                      <span class="mt-3 block font-heading font-bold">{{ loan.label }}</span>
+                      <span class="text-xs text-slate-500">{{ loan.hindi_label }}</span>
+                    </button>
+                  {% endfor %}
+                </div>
+                <input type="hidden" name="loan_type" value="{{ active_type }}">
+                <div class="mt-6 grid gap-5">
+                  <label id="propertyValueWrap" class="text-sm font-semibold">Property / vehicle value <span class="ml-2 rounded-full bg-blue-50 px-2 py-1 text-xs text-brand-blue" id="ltvHelp"></span><input name="property_value" type="number" class="mt-2 w-full rounded-md border border-brand-line px-3 py-2" value="{{ initial.property_value }}"></label>
+                  <label class="text-sm font-semibold">Preferred tenure <span data-display="preferred_tenure_years"></span> yrs<input name="preferred_tenure_years" type="range" min="1" max="{{ config.max_tenure_years }}" step="1" class="mt-3 w-full accent-brand-blue" value="{{ initial.preferred_tenure_years }}"></label>
+                  <label class="text-sm font-semibold">Interest rate type<select name="rate_type" class="mt-2 w-full rounded-md border border-brand-line bg-white px-3 py-2"><option value="floating">Floating</option><option value="fixed">Fixed</option></select></label>
+                  <label class="text-sm font-semibold">Loan purpose<select name="purpose" class="mt-2 w-full rounded-md border border-brand-line bg-white px-3 py-2"><option value="purchase">Purchase</option><option value="construction">Construction</option><option value="renovation">Renovation</option><option value="balance-transfer">Balance Transfer</option><option value="top-up">Top-up</option></select></label>
+                </div>
+              </div>
+            </form>
+
+            <div class="mt-6 flex justify-between gap-3">
+              <button id="backBtn" type="button" class="rounded-md border border-brand-line px-4 py-2 font-semibold text-slate-600 disabled:opacity-40" disabled>Back</button>
+              <button id="nextBtn" type="button" class="rounded-md bg-brand-blue px-5 py-2 font-semibold text-white">Continue</button>
+            </div>
+          </section>
+
+          <section id="bankRatesSection" class="rounded-lg border border-brand-line bg-white p-5 shadow-soft">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <h2 class="font-heading text-2xl font-extrabold">Current lender rates</h2>
+                <p id="bankRatesSubtitle" class="mt-1 text-sm text-slate-600">Compare current market rates for this loan product.</p>
+                <p class="mt-1 text-sm text-slate-500">
+                  Last updated: <span id="bankRatesUpdated">Loading...</span>
+                </p>
+              </div>
+              <button id="refreshBankRates" type="button" class="inline-flex items-center justify-center rounded-md border border-brand-line px-4 py-2 text-sm font-bold text-brand-blue hover:bg-brand-mist">
+                Refresh
+              </button>
+            </div>
+
+            <div class="mt-5 inline-flex rounded-lg border border-brand-line bg-brand-mist p-1" role="group" aria-label="Borrower type">
+              <button type="button" class="borrower-toggle active" data-borrower="salaried">Salaried</button>
+              <button type="button" class="borrower-toggle" data-borrower="self">Self-employed</button>
+            </div>
+
+            <div id="bankRatesStatus" class="mt-5 flex items-center gap-3 text-sm text-slate-600">
+              <span class="h-5 w-5 animate-spin rounded-full border-2 border-brand-line border-t-brand-blue"></span>
+              Fetching current rates...
+            </div>
+            <div id="bankRateGrid" class="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3"></div>
+            <div id="bankRateDetails" class="mt-4"></div>
+            <div id="bankRecommendation" class="mt-5 rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm text-brand-ink"></div>
+          </section>
+
+          <section class="rounded-lg border border-brand-line bg-white p-5 shadow-soft">
+            <div class="flex flex-wrap gap-2" role="tablist" aria-label="Extra calculators">
+              <button class="tool-tab active" data-tool="compare" type="button">Compare</button>
+              <button class="tool-tab" data-tool="emi" type="button">EMI</button>
+              <button class="tool-tab" data-tool="transfer" type="button">Balance transfer</button>
+              <button class="tool-tab" data-tool="afford" type="button">Affordability</button>
+            </div>
+            <div class="tool-panel mt-5" data-tool-panel="compare">
+              <label class="text-sm font-semibold">Scenario B tenure: <span id="scenarioTenureLabel">25</span> yrs<input id="scenarioTenure" type="range" min="1" max="30" value="25" class="mt-2 w-full accent-brand-blue"></label>
+              <div id="compareOutput" class="mt-4 grid gap-3 sm:grid-cols-2"></div>
+            </div>
+            <div class="tool-panel mt-5 hidden" data-tool-panel="emi"><div id="emiToolOutput" class="grid gap-3 sm:grid-cols-3"></div></div>
+            <div class="tool-panel mt-5 hidden" data-tool-panel="transfer">
+              <div class="grid gap-4">
+                <label class="text-sm font-semibold">Outstanding loan<input id="btOutstanding" type="number" value="2500000" class="mt-2 w-full rounded-md border border-brand-line px-3 py-2"></label>
+                <label class="text-sm font-semibold">Current rate %<input id="btCurrent" type="number" value="11" step="0.1" class="mt-2 w-full rounded-md border border-brand-line px-3 py-2"></label>
+                <label class="text-sm font-semibold">New rate %<input id="btNew" type="number" value="9.5" step="0.1" class="mt-2 w-full rounded-md border border-brand-line px-3 py-2"></label>
+                <div id="transferOutput" class="grid gap-3 sm:grid-cols-3"></div>
+              </div>
+            </div>
+            <div class="tool-panel mt-5 hidden" data-tool-panel="afford">
+              <label class="text-sm font-semibold">I can pay per month<input id="affordEmi" type="number" value="50000" class="mt-2 w-full rounded-md border border-brand-line px-3 py-2"></label>
+              <div id="affordOutput" class="mt-4"></div>
+            </div>
+          </section>
+
+          <section class="rounded-lg border border-brand-line bg-white p-5 shadow-soft">
+            <h2 class="font-heading text-2xl font-extrabold">Frequently asked questions</h2>
+            <div id="faqList" class="mt-4 divide-y divide-brand-line">
+              {% for faq in faqs %}
+                <details class="py-3"><summary class="cursor-pointer font-semibold">{{ faq.q }}</summary><p class="mt-2 text-sm text-slate-600">{{ faq.a }}</p></details>
+              {% endfor %}
+            </div>
+          </section>
+        </div>
+
+        <aside id="resultsPanel" class="print-full rounded-lg border border-brand-line bg-white p-5 shadow-soft lg:sticky lg:top-6 lg:self-start"></aside>
+      </section>
+    </main>
+
+    <div id="expertModal" class="hidden fixed inset-0 z-50 place-items-center bg-slate-950/40 p-4" role="dialog" aria-modal="true">
+      <div class="w-full max-w-md rounded-lg bg-white p-5 shadow-soft">
+        <h3 class="font-heading text-xl font-bold">Talk to a Loan Expert</h3>
+        <p class="mt-2 text-sm text-slate-600">Your estimate is ready. Book a consultation or call the desk now.</p>
+        <div class="mt-5 grid gap-2">
+          <a class="rounded-md bg-brand-blue px-4 py-3 text-center font-semibold text-white" href="https://calendly.com/" target="_blank" rel="noreferrer">Open Calendly</a>
+          <a class="rounded-md border border-brand-line px-4 py-3 text-center font-semibold text-brand-blue" href="tel:+911234567890">Call +91 12345 67890</a>
+          <button type="button" id="closeModal" class="rounded-md px-4 py-2 text-sm font-semibold text-slate-600">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.LOANCHECK = {
+        input: {{ initial_json | safe }},
+        result: {{ result_json | safe }},
+        configs: {{ configs_json | safe }},
+        faqs: {{ faqs_json | safe }}
+      };
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: loancheck
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn run:app
