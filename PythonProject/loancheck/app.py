@@ -32,7 +32,7 @@ def create_app() -> Flask:
 
     @app.route("/")
     def index():
-        return redirect(url_for("loan_page", slug="home-loan"))
+        return render_template("index.html")
 
     @app.route("/<slug>")
     def loan_page(slug: str):

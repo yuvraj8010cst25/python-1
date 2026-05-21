@@ -79,10 +79,10 @@ Do not rename `loancheck/templates/calculator.html` to `index.html`. Flask rende
 If you want to explain or demo the full app from one Python file, use:
 
 ```bash
-python all_in_one_app.py
+python single_file_full_app.py
 ```
 
-It contains the Flask routes, eligibility engine, bank-rate API, and HTML/JavaScript UI in one file. The modular production version is still the recommended version for long-term editing.
+It contains the Flask routes, eligibility engine, bank-rate API, fallback rate data, and HTML/JavaScript UI in one file. The modular production version is still the recommended version for long-term editing.
 
 ## Bank Rate API
 

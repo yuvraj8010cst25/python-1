@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoanCheck - Loan Eligibility Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen flex items-center justify-center bg-gray-50">
+        <div class="w-full max-w-4xl px-4 py-8">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 mb-2">LoanCheck</h1>
+                <p class="text-xl text-gray-600">India's Loan Eligibility Calculator</p>
+                <p class="text-gray-500 mt-2">Check your eligibility for various loan products instantly</p>
+            </div>
+
+            <!-- Loan Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Home Loan -->
+                <a href="/home-loan" class="block group">
+                    <div class="bg-white rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 p-6">
+                        <div class="text-3xl mb-3">🏠</div>
+                        <h2 class="text-xl font-semibold text-gray-900 mb-2">Home Loan</h2>
+                        <p class="text-gray-600 text-sm mb-4">Find your eligibility for home financing</p>
+                        <span class="inline-block text-blue-600 font-semibold group-hover:translate-x-1 transition-transform">Get Started →</span>
+                    </div>
+                </a>
+
+                <!-- Personal Loan -->
+                <a href="/personal-loan" class="block group">
+                    <div class="bg-white rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 p-6">
+                        <div class="text-3xl mb-3">💰</div>
+                        <h2 class="text-xl font-semibold text-gray-900 mb-2">Personal Loan</h2>
+                        <p class="text-gray-600 text-sm mb-4">Quick personal loan eligibility check</p>
+                        <span class="inline-block text-blue-600 font-semibold group-hover:translate-x-1 transition-transform">Get Started →</span>
+                    </div>
+                </a>
+
+                <!-- Car Loan -->
+                <a href="/car-loan" class="block group">
+                    <div class="bg-white rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 p-6">
+                        <div class="text-3xl mb-3">🚗</div>
+                        <h2 class="text-xl font-semibold text-gray-900 mb-2">Car Loan</h2>
+                        <p class="text-gray-600 text-sm mb-4">Check eligibility for your dream car</p>
+                        <span class="inline-block text-blue-600 font-semibold group-hover:translate-x-1 transition-transform">Get Started →</span>
+                    </div>
+                </a>
+
+                <!-- LAP (Loan Against Property) -->
+                <a href="/lap" class="block group">
+                    <div class="bg-white rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 p-6">
+                        <div class="text-3xl mb-3">🏢</div>
+                        <h2 class="text-xl font-semibold text-gray-900 mb-2">Loan Against Property</h2>
+                        <p class="text-gray-600 text-sm mb-4">Leverage your property for loans</p>
+                        <span class="inline-block text-blue-600 font-semibold group-hover:translate-x-1 transition-transform">Get Started →</span>
+                    </div>
+                </a>
+
+                <!-- Education Loan -->
+                <a href="/education-loan" class="block group">
+                    <div class="bg-white rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 p-6">
+                        <div class="text-3xl mb-3">🎓</div>
+                        <h2 class="text-xl font-semibold text-gray-900 mb-2">Education Loan</h2>
+                        <p class="text-gray-600 text-sm mb-4">Finance your education dreams</p>
+                        <span class="inline-block text-blue-600 font-semibold group-hover:translate-x-1 transition-transform">Get Started →</span>
+                    </div>
+                </a>
+
+                <!-- Business Loan -->
+                <a href="/business-loan" class="block group">
+                    <div class="bg-white rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 p-6">
+                        <div class="text-3xl mb-3">💼</div>
+                        <h2 class="text-xl font-semibold text-gray-900 mb-2">Business Loan</h2>
+                        <p class="text-gray-600 text-sm mb-4">Grow your business with financing</p>
+                        <span class="inline-block text-blue-600 font-semibold group-hover:translate-x-1 transition-transform">Get Started →</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-12 text-center text-gray-600">
+                <p class="text-sm">LoanCheck © 2024 | India's Premier Loan Eligibility Calculator</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
